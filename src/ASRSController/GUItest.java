@@ -76,14 +76,14 @@ class GUItest extends javax.swing.JFrame {
         setTitle("Automated Storage and Retrieval System");
         setName("GUI"); // NOI18N
 
-        orderpickBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"port 1", "port 2", "port 3", "port 4"}));
+        orderpickBox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
         orderpickBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 orderpickBoxActionPerformed(evt);
             }
         });
 
-        sortbox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"port 1", "port 2", "port 3", "port 4"}));
+        sortbox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
 
         sortLabel.setText("Sorteerrobot");
 
