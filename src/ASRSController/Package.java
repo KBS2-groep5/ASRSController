@@ -7,7 +7,7 @@ public class Package {
     private final int y;
     private final int height;
 
-    public Package(int productNr, String name, int x, int y, int height) {
+    Package(int productNr, String name, int x, int y, int height) {
         this.productNr = productNr;
         this.name = name;
         this.x = x;
@@ -15,23 +15,23 @@ public class Package {
         this.height = height;
     }
     
-    public int getProductNr() {
+    int getProductNr() {
         return productNr;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public int getX() {
+    int getX() {
         return x;
     }
 
-    public int getY() {
+    int getY() {
         return y;
     }
 
-    public int getHeight() {
+    int getHeight() {
         return height;
     }
 
