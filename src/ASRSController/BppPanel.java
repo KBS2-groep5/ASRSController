@@ -3,13 +3,12 @@ package ASRSController;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BppPanel extends JPanel {
-    private int x = 360;
-    private int y = 415;
-    private ArrayList<Package> packageList = new ArrayList<>();
+    private final int x = 360;
+    private final int y = 415;
+    private List<Container> containers = new ArrayList<>();
 
     BppPanel() {
         setBackground(Color.white);
@@ -17,59 +16,46 @@ public class BppPanel extends JPanel {
         setBounds(710, 80, this.x, this.y);
     }
 
-    void addPackage(Package p) {
-        this.packageList.add(p);
-        repaint();
-    }
-
-    void clearPackages() {
-        this.packageList = new ArrayList<>();
-        repaint();
+    void setContainers(List<Container> containers) {
+        this.containers = containers;
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        for (int i = 0; i < this.containers.size(); i++) {
+            g.setColor(Color.BLACK);
+            g.drawString(this.containers.get(i).toString(), 20, 20 + i * 20);
+        }
 
+        g.setFont(new Font("Arial", Font.PLAIN, 11));
 
-//        int x = this.x;
-//        int y = this.y;
-//        int boxLength = 10;
+        for (int i = 0; i < this.containers.size(); i++) {
+            Container container = containers.get(i);
 
-////        ArrayList<ArrayList<int[]>> boxes = new ArrayList<ArrayList<int[]>>();
-//        List<Container> containers = new ArrayList<>();
-////        boxes.add(this.packageList);
-//
-//        for (int i = 0; i < containers.size(); i++) {
-//            int s = 0;
-//            Container container = containers.get(i);
-//            for (int t = 0; t < container.size(); t++) {
-//                int[] product = box.get(t);
-//                int xPos = s;
-//                int yPos = y / 5 * i;
-//                int boxHeight = y / 5;
-//                int height = x / 10 * product[1];
-//
-//                if (product[2] == 1) {
-//                    g.setColor(Color.green);
-//                } else {
-//                    g.setColor(Color.red);
-//                }
-//
-//                g.fillRect(xPos, yPos, height, boxHeight);
-//                g.setColor(Color.black);
-//                g.drawRect(xPos, yPos, height, boxHeight);
-//
-//                g.drawString(Integer.toString(product[0]), xPos + (height / 2), yPos + (boxHeight / 2));
-//
-//                s += (x / boxLength * product[1]);
-//            }
-//        }
-//
-//        for (int i = 0; i <= 5; i++) {
-//            g.setColor(Color.black);
-//            g.drawRect(0, y / 5 * i, x, y);
-//        }
+            // Outline of containers
+            g.setColor(Color.BLACK);
+            g.fillRect(0, i * (this.y / 5), 360, (this.y / 5));
+            g.setColor(Color.WHITE);
+            g.fillRect(1, 1 + i * (this.y / 5), this.x - 2, (this.y / 5) - 1);
+
+            int offsetLeft = 0;
+            for (Package p : container.getPackages()) {
+                // Package
+                g.setColor(p.getPacked() ? Color.GREEN : Color.RED);
+                g.fillRect(offsetLeft + 1, i * (this.y / 5) + 1, (int) ((float) p.getHeight() / 100 * this.x) - 1, (this.y / 5));
+
+                // Package ID and name
+                g.setColor(Color.BLACK);
+                g.drawString("" + p.getProductNr(), offsetLeft + 8, i * (this.y / 5) + 18);
+                g.drawString(p.getHeight() > 20 ? p.getName() : "...", offsetLeft + 8, i * (this.y / 5) + 32);
+
+                offsetLeft += (int) ((float) p.getHeight() / 100 * this.x);
+
+                // Black line to divide packages
+                g.fillRect(offsetLeft, i * (this.y / 5) + 1, 1, (this.y / 5));
+            }
+        }
     }
 }

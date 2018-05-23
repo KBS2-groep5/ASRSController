@@ -325,8 +325,11 @@ class GUItest extends javax.swing.JFrame {
                         continue;
                     }
 
+                    System.out.println("height" + p.getHeight());
+
+                    productList.add(p);
+
                     this.tspPanel.addPackage(p);
-                    this.bppPanel.addPackage(p);
 
                     productsTable.setValueAt(p.getProductNr(), i, 1);
                     productsTable.setValueAt(p.getName(), i, 0);
@@ -334,7 +337,12 @@ class GUItest extends javax.swing.JFrame {
                     i++;
                 }
 
+                List<Container> solution = BPPAlgorithm.solve(productList);
+                this.bppPanel.setContainers(solution);
+
                 this.amountView.setText(Integer.toString(i));
+
+                repaint();
             } else {
                 System.out.println("Open command cancelled by user.");
             }

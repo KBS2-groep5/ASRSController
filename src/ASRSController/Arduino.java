@@ -37,4 +37,3 @@ class Arduino {
         this.port.closePort();
     }
 }
-

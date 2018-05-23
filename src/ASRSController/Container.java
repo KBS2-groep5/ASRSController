@@ -4,30 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Container {
-    private List<Box> boxes;
+    private List<Package> packages;
 
-    public Container() {
-        this.boxes = new ArrayList<>();
+    Container() {
+        this.packages = new ArrayList<>();
     }
 
-    void addBox(Box box) {
-        this.boxes.add(box);
+    void addPackage(Package p) {
+        this.packages.add(p);
     }
 
-    List<Box> getBoxes() {
-        return this.boxes;
+    List<Package> getPackages() {
+        return this.packages;
     }
 
     int getPercentageFilled() {
         int result = 0;
-        for (Box b : this.boxes) {
-            result += b.getHeight();
+        for (Package p : this.packages) {
+            result += p.getHeight();
         }
         return result;
     }
 
     @Override
     public String toString() {
-        return "Box(" + this.boxes.size() + "," + this.getPercentageFilled() + ")";
+        return "Package(" + this.packages.size() + "," + this.getPercentageFilled() + "%)";
     }
 }
