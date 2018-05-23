@@ -6,7 +6,7 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
 
-public class JSONReadFromFile {
+class JSONReadFromFile {
     private String firstName;
     private String lastName;
     private String ordernr;

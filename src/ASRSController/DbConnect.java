@@ -4,7 +4,6 @@ import java.sql.*;
 
 class DbConnect {
     private Connection con;
-    // todo: add cache
 
     DbConnect() {
         try {

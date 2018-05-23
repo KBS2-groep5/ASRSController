@@ -300,52 +300,50 @@ class GUItest extends javax.swing.JFrame {
         if (evt.getSource() == uploadButton) {
             int returnVal = fc.showOpenDialog(GUItest.this);
 
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
-                System.out.println("Opening: " + file.getName() + ".");
-                JSONReadFromFile JSON = new JSONReadFromFile(file.getPath());
-
-                this.ordernumber.setText(JSON.getOrdernr());
-                this.adress.setText(JSON.getAdress());
-                this.name.setText(JSON.getFirstName() + " " + JSON.getLastName());
-                this.place.setText(JSON.getPlace());
-
-                List<Package> productList = new ArrayList<>();
-
-                JSONArray ProductList = JSON.getProductList();
-                Iterator<Long> iterator = ProductList.iterator();
-                int i = 0;
-                while (iterator.hasNext()) {
-                    int productNr = toIntExact(iterator.next());
-
-                    Package p = this.db.getPackage(productNr);
-
-                    if (p == null) {
-                        JOptionPane.showMessageDialog(null, "Opgevraagd product met id " + productNr + " staat niet in database");
-                        continue;
-                    }
-
-                    System.out.println("height" + p.getHeight());
-
-                    productList.add(p);
-
-                    this.tspPanel.addPackage(p);
-
-                    productsTable.setValueAt(p.getProductNr(), i, 1);
-                    productsTable.setValueAt(p.getName(), i, 0);
-
-                    i++;
-                }
-
-                List<Container> solution = BPPAlgorithm.solve(productList);
-                this.bppPanel.setContainers(solution);
-
-                this.amountView.setText(Integer.toString(i));
-
-                repaint();
-            } else {
+            if (returnVal != JFileChooser.APPROVE_OPTION) {
                 System.out.println("Open command cancelled by user.");
             }
+
+            File file = fc.getSelectedFile();
+            System.out.println("Opening: " + file.getName() + ".");
+            JSONReadFromFile JSON = new JSONReadFromFile(file.getPath());
+
+            this.ordernumber.setText(JSON.getOrdernr());
+            this.adress.setText(JSON.getAdress());
+            this.name.setText(JSON.getFirstName() + " " + JSON.getLastName());
+            this.place.setText(JSON.getPlace());
+
+            List<Package> productList = new ArrayList<>();
+
+            JSONArray ProductList = JSON.getProductList();
+            Iterator<Long> iterator = ProductList.iterator();
+            int i = 0;
+            while (iterator.hasNext()) {
+                int productNr = toIntExact(iterator.next());
+
+                Package p = this.db.getPackage(productNr);
+
+                if (p == null) {
+                    JOptionPane.showMessageDialog(null, "Opgevraagd product met id " + productNr + " staat niet in database");
+                    continue;
+                }
+
+                productList.add(p);
+
+                this.tspPanel.addPackage(p);
+
+                productsTable.setValueAt(p.getProductNr(), i, 1);
+                productsTable.setValueAt(p.getName(), i, 0);
+
+                i++;
+            }
+
+            List<Container> solution = BPPAlgorithm.solve(productList);
+            this.bppPanel.setContainers(solution);
+
+            this.amountView.setText(Integer.toString(i));
+
+            repaint();
         }
     }
 }

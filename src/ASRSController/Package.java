@@ -1,8 +1,5 @@
 package ASRSController;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Package {
     private final int productNr;
     private final String name;
@@ -10,8 +7,6 @@ public class Package {
     private final int y;
     private final int height;
     private final boolean packed;
-
-
 
     Package(int productNr, String name, int x, int y, int height, boolean packed) {
         this.productNr = productNr;
@@ -21,7 +16,7 @@ public class Package {
         this.height = height;
         this.packed = packed;
     }
-    
+
     int getProductNr() {
         return productNr;
     }
@@ -42,7 +37,7 @@ public class Package {
         return height;
     }
 
-    public boolean getPacked() {
+    boolean getPacked() {
         return this.packed;
     }
 
