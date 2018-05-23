@@ -5,10 +5,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 class TspPanel extends JPanel {
-    private int x = 325;
-    private int y = 345;
+    private final int x = 325;
+    private final int y = 345;
     private ArrayList<Package> packageList = new ArrayList<>();
-//    private boolean can = false;
 
     TspPanel() {
         setBackground(Color.white);

@@ -28,13 +28,12 @@ class GUItest extends javax.swing.JFrame {
 
     GUItest() {
         fc = new JFileChooser();
-        db = new DbConnect();
-
         fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-        add(this.tspPanel);
+        db = new DbConnect();
 
-        add(bppPanel);
+        add(this.tspPanel);
+        add(this.bppPanel);
 
         initComponents();
     }
