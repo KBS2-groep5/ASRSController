@@ -1,0 +1,8 @@
+/ASRS/nbproject/private/
+/build/
+/nbproject/private/
+
+*.class
+*.iml
+/out/
+/.idea/
