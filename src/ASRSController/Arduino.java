@@ -3,7 +3,6 @@ package ASRSController;
 import com.fazecast.jSerialComm.SerialPort;
 
 import java.io.IOException;
-import java.util.List;
 
 class Arduino {
     private SerialPort port;
@@ -19,9 +18,18 @@ class Arduino {
         port.readBytes(new byte[]{0}, 1);
     }
 
+    static String[] getComPorts() {
+        String[] ports = new String[SerialPort.getCommPorts().length];
+        int i = 0;
+        for (SerialPort loopPort : SerialPort.getCommPorts()) {
+            ports[i] = loopPort.getDescriptivePortName();
+            i++;
+        }
+        return ports;
+    }
+
     void write(byte[] bytes) throws IOException {
         // todo: check if port is open (currently throws NullPointerException)
-        Integer i = 2;
         this.port.getOutputStream().write(bytes);
         this.port.getOutputStream().flush();
     }
@@ -36,15 +44,5 @@ class Arduino {
 
     void close() {
         this.port.closePort();
-    }
-
-    public static String[] getComPorts(){
-        String[] ports = new String[SerialPort.getCommPorts().length];
-        int i = 0;
-        for (SerialPort loopPort : SerialPort.getCommPorts()) {
-            ports[i] = loopPort.getDescriptivePortName();
-            i++;
-        }
-        return ports;
     }
 }

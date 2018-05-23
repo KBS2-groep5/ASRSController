@@ -3,6 +3,7 @@ package ASRSController;
 import org.json.simple.JSONArray;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -77,11 +78,7 @@ class GUItest extends javax.swing.JFrame {
         setName("GUI"); // NOI18N
 
         orderpickBox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
-        orderpickBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                orderpickBoxActionPerformed(evt);
-            }
-        });
+        orderpickBox.addActionListener(this::orderpickBoxActionPerformed);
 
         sortbox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
 
@@ -91,22 +88,14 @@ class GUItest extends javax.swing.JFrame {
 
         sorteerStatus.setAlignment(java.awt.Label.RIGHT);
         sorteerStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        sorteerStatus.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        sorteerStatus.setFont(new java.awt.Font("Dialog", Font.BOLD, 24)); // NOI18N
         sorteerStatus.setText("Sorteer Status");
 
         uploadButton.setText("Bestand");
-        uploadButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uploadButtonActionPerformed(evt);
-            }
-        });
+        uploadButton.addActionListener(this::uploadButtonActionPerformed);
 
         startButton.setText("Start");
-        startButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startButtonActionPerformed(evt);
-            }
-        });
+        startButton.addActionListener(this::startButtonActionPerformed);
 
         stopButton.setText("Stop");
 
@@ -119,13 +108,13 @@ class GUItest extends javax.swing.JFrame {
 
         ordernumberLabel.setAlignment(java.awt.Label.RIGHT);
         ordernumberLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        ordernumberLabel.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        ordernumberLabel.setFont(new java.awt.Font("Dialog", Font.BOLD, 24)); // NOI18N
         ordernumberLabel.setText("Ordernummer:");
 
-        robotStatus.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        robotStatus.setFont(new java.awt.Font("Dialog", Font.BOLD, 24)); // NOI18N
         robotStatus.setText("Robot Status");
 
-        ordernumber.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        ordernumber.setFont(new java.awt.Font("Dialog", Font.PLAIN, 24)); // NOI18N
         ordernumber.setText("Geen");
 
         jLabel2.setText("Adres:");
@@ -286,64 +275,65 @@ class GUItest extends javax.swing.JFrame {
         ordernumber.getAccessibleContext().setAccessibleName("Order nummer");
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void orderpickBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderpickBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_orderpickBoxActionPerformed
+    private void orderpickBoxActionPerformed(java.awt.event.ActionEvent evt) {
 
-    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_startButtonActionPerformed
+    }
 
-    private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadButtonActionPerformed
-        if (evt.getSource() == uploadButton) {
-            int returnVal = fc.showOpenDialog(GUItest.this);
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
-            if (returnVal != JFileChooser.APPROVE_OPTION) {
-                System.out.println("Open command cancelled by user.");
-            }
+    }
 
-            File file = fc.getSelectedFile();
-            System.out.println("Opening: " + file.getName() + ".");
-            JSONReadFromFile JSON = new JSONReadFromFile(file.getPath());
-
-            this.ordernumber.setText(JSON.getOrdernr());
-            this.adress.setText(JSON.getAdress());
-            this.name.setText(JSON.getFirstName() + " " + JSON.getLastName());
-            this.place.setText(JSON.getPlace());
-
-            List<Package> productList = new ArrayList<>();
-
-            JSONArray ProductList = JSON.getProductList();
-            Iterator<Long> iterator = ProductList.iterator();
-            int i = 0;
-            while (iterator.hasNext()) {
-                int productNr = toIntExact(iterator.next());
-
-                Package p = this.db.getPackage(productNr);
-
-                if (p == null) {
-                    JOptionPane.showMessageDialog(null, "Opgevraagd product met id " + productNr + " staat niet in database");
-                    continue;
-                }
-
-                productList.add(p);
-
-                this.tspPanel.addPackage(p);
-
-                productsTable.setValueAt(p.getProductNr(), i, 1);
-                productsTable.setValueAt(p.getName(), i, 0);
-
-                i++;
-            }
-
-            List<Container> solution = BPPAlgorithm.solve(productList);
-            this.bppPanel.setContainers(solution);
-
-            this.amountView.setText(Integer.toString(i));
-
-            repaint();
+    private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        if (evt.getSource() != uploadButton) {
+            return;
         }
+        int returnVal = fc.showOpenDialog(GUItest.this);
+
+        if (returnVal != JFileChooser.APPROVE_OPTION) {
+            System.out.println("Open command cancelled by user.");
+        }
+
+        File file = fc.getSelectedFile();
+        System.out.println("Opening: " + file.getName() + ".");
+        JSONReadFromFile JSON = new JSONReadFromFile(file.getPath());
+
+        this.ordernumber.setText(JSON.getOrdernr());
+        this.adress.setText(JSON.getAdress());
+        this.name.setText(JSON.getFirstName() + " " + JSON.getLastName());
+        this.place.setText(JSON.getPlace());
+
+        List<Package> productList = new ArrayList<>();
+
+        JSONArray ProductList = JSON.getProductList();
+        Iterator<Long> iterator = ProductList.iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            int productNr = toIntExact(iterator.next());
+
+            Package p = this.db.getPackage(productNr);
+
+            if (p == null) {
+                JOptionPane.showMessageDialog(null, "Opgevraagd product met id " + productNr + " staat niet in database");
+                continue;
+            }
+
+            productList.add(p);
+
+            this.tspPanel.addPackage(p);
+
+            productsTable.setValueAt(p.getProductNr(), i, 1);
+            productsTable.setValueAt(p.getName(), i, 0);
+
+            i++;
+        }
+
+        List<Container> solution = BPPAlgorithm.solve(productList);
+        this.bppPanel.setContainers(solution);
+
+        this.amountView.setText(Integer.toString(i));
+
+        repaint();
     }
 }
