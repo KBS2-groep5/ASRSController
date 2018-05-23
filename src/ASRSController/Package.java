@@ -6,13 +6,15 @@ public class Package {
     private final int x;
     private final int y;
     private final int height;
+    private final boolean packed;
 
-    Package(int productNr, String name, int x, int y, int height) {
+    Package(int productNr, String name, int x, int y, int height, boolean packed) {
         this.productNr = productNr;
         this.name = name;
         this.x = x;
         this.y = y;
         this.height = height;
+        this.packed = packed;
     }
     
     int getProductNr() {
@@ -33,6 +35,10 @@ public class Package {
 
     int getHeight() {
         return height;
+    }
+
+    public boolean getPacked() {
+        return this.packed;
     }
 
     @Override

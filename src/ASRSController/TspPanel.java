@@ -7,8 +7,8 @@ import java.util.ArrayList;
 class TspPanel extends JPanel {
     private int x = 325;
     private int y = 345;
-    private ArrayList<int[]> productList;
-    private boolean can = false;
+    private ArrayList<Package> packageList = new ArrayList<>();
+//    private boolean can = false;
 
     TspPanel() {
         setBackground(Color.white);
@@ -17,10 +17,14 @@ class TspPanel extends JPanel {
         setBounds(10, 150, this.x, this.y);
     }
 
-    void setProductList(ArrayList<int[]> productList) {
-        this.productList = productList;
-        this.can = true;
-        this.repaint();
+    void addPackage(Package p) {
+        this.packageList.add(p);
+        repaint();
+    }
+
+    void clearPackages() {
+        this.packageList = new ArrayList<>();
+        repaint();
     }
 
     @Override
@@ -30,20 +34,9 @@ class TspPanel extends JPanel {
         int x = this.x / 5;
         int y = this.y / 5;
 
-        //als er een productLijst is gePushed voert het volgende stuk uit
-        if (can) {
-            //dit is het tekenen van de pakketjes in de stelling dit gebeurd voor het tekenen van de stelling
-            for (int i = 0; i < productList.size(); i++) {
-                int[] product = productList.get(i);
-                //als het product ingepakt is is de kleur groen anders rood
-                if (product[2] == 1) {
-                    g.setColor(Color.green);
-                } else {
-                    g.setColor(Color.red);
-                }
-                g.fillRect(x * product[0], y * product[1], x, y);
-            }
-
+        for (Package p : packageList) {
+            g.setColor(p.getPacked() ? Color.GREEN : Color.RED);
+            g.fillRect(x * p.getX(), y * p.getY(), x, y);
         }
 
         for (int i = 0; i <= 5; i++) {
@@ -53,22 +46,17 @@ class TspPanel extends JPanel {
             }
         }
 
-        //als er een productLijst is gePushed voert het volgende stuk uit
-        if (can) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setStroke(new BasicStroke(3));
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(3));
 
-            for (int i = 0; i < productList.size() - 1; i++) {
-                int[] product = productList.get(i);
-                int[] product1 = productList.get(i + 1);
-                g2.setColor(Color.blue);
-                int offSet = x / 2;
-                g2.drawLine(x * product[0] + offSet, y * product[1] + offSet, x * product1[0] + offSet, y * product1[1] + offSet);
-            }
-
-            g2.setStroke(new BasicStroke(1));
+        for (int i = 0; i < packageList.size() - 1; i++) {
+            Package p = packageList.get(i);
+            Package p1 = packageList.get(i + 1);
+            g2.setColor(Color.blue);
+            int offSet = x / 2;
+            g2.drawLine(x * p.getX() + offSet, y * p.getY() + offSet, x * p1.getX() + offSet, y * p1.getY() + offSet);
         }
 
+        g2.setStroke(new BasicStroke(1));
     }
-
 }

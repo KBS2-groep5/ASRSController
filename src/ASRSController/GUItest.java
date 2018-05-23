@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import static java.lang.Math.toIntExact;
 
@@ -309,8 +310,7 @@ class GUItest extends javax.swing.JFrame {
                 this.name.setText(JSON.getFirstName() + " " + JSON.getLastName());
                 this.place.setText(JSON.getPlace());
 
-                ArrayList<int[]> productList = new ArrayList<int[]>();
-                ArrayList<int[]> packingList = new ArrayList<int[]>();
+                List<Package> productList = new ArrayList<>();
 
                 JSONArray ProductList = JSON.getProductList();
                 Iterator<Long> iterator = ProductList.iterator();
@@ -325,21 +325,14 @@ class GUItest extends javax.swing.JFrame {
                         continue;
                     }
 
-                    int[] place = new int[]{p.getX(), p.getY(), 0};
-                    productList.add(place);
-
-                    int[] specs = new int[]{productNr, p.getHeight(), 0};
-                    packingList.add(specs);
+                    this.tspPanel.addPackage(p);
+                    this.bppPanel.addPackage(p);
 
                     productsTable.setValueAt(p.getProductNr(), i, 1);
                     productsTable.setValueAt(p.getName(), i, 0);
 
                     i++;
                 }
-
-                this.tspPanel.setProductList(productList);
-
-                this.bppPanel.setPackingList(packingList);
 
                 this.amountView.setText(Integer.toString(i));
             } else {
