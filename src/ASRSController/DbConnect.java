@@ -28,7 +28,8 @@ class DbConnect {
                         resultSet.getString("productName"),
                         resultSet.getInt("x"),
                         resultSet.getInt("y"),
-                        resultSet.getInt("height")
+                        resultSet.getInt("height"),
+                        false
                 );
             }
         } catch (SQLException e) {
