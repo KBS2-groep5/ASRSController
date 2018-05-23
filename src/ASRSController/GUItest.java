@@ -9,38 +9,22 @@ import java.util.Iterator;
 
 import static java.lang.Math.toIntExact;
 
-public class GUItest extends javax.swing.JFrame {
-    JFileChooser fc;
+class GUItest extends javax.swing.JFrame {
+    private JFileChooser fc;
 
-    DbConnect db;
+    private DbConnect db;
 
-    TspPanel tspPanel = new TspPanel();
-    BppPanel bppPanel = new BppPanel();
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private TspPanel tspPanel = new TspPanel();
+    private BppPanel bppPanel = new BppPanel();
     private javax.swing.JLabel adress;
-    private java.awt.Label amountLabel;
     private javax.swing.JLabel amountView;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextPane2;
     private javax.swing.JLabel name;
     private javax.swing.JLabel ordernumber;
-    private java.awt.Label ordernumberLabel;
-    private javax.swing.JComboBox<String> orderpickBox;
-    private java.awt.Label orderpickLabel;
     private javax.swing.JLabel place;
     private javax.swing.JTable productsTable;
-    private java.awt.Label robotStatus;
-    private java.awt.Label sortLabel;
-    private javax.swing.JComboBox<String> sortbox;
-    private java.awt.Label sorteerStatus;
-    private javax.swing.JButton startButton;
-    private javax.swing.JButton stopButton;
     private javax.swing.JButton uploadButton;
-    private java.awt.Label uploadLabel;
 
-    public GUItest() {
+    GUItest() {
         fc = new JFileChooser();
         db = new DbConnect();
 
@@ -62,27 +46,27 @@ public class GUItest extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
-        orderpickBox = new javax.swing.JComboBox<>();
-        sortbox = new javax.swing.JComboBox<>();
-        sortLabel = new java.awt.Label();
-        orderpickLabel = new java.awt.Label();
-        sorteerStatus = new java.awt.Label();
+        JScrollPane jScrollPane2 = new JScrollPane();
+        JTextPane jTextPane2 = new JTextPane();
+        JComboBox<String> orderpickBox = new JComboBox<>();
+        JComboBox<String> sortbox = new JComboBox<>();
+        java.awt.Label sortLabel = new java.awt.Label();
+        java.awt.Label orderpickLabel = new java.awt.Label();
+        java.awt.Label sorteerStatus = new java.awt.Label();
         uploadButton = new javax.swing.JButton();
-        startButton = new javax.swing.JButton();
-        stopButton = new javax.swing.JButton();
-        uploadLabel = new java.awt.Label();
-        amountLabel = new java.awt.Label();
+        JButton startButton = new JButton();
+        JButton stopButton = new JButton();
+        java.awt.Label uploadLabel = new java.awt.Label();
+        java.awt.Label amountLabel = new java.awt.Label();
         amountView = new javax.swing.JLabel();
-        ordernumberLabel = new java.awt.Label();
-        robotStatus = new java.awt.Label();
+        java.awt.Label ordernumberLabel = new java.awt.Label();
+        java.awt.Label robotStatus = new java.awt.Label();
         ordernumber = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        JLabel jLabel2 = new JLabel();
         adress = new javax.swing.JLabel();
         place = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        JScrollPane jScrollPane1 = new JScrollPane();
         productsTable = new javax.swing.JTable();
 
         jScrollPane2.setViewportView(jTextPane2);
@@ -362,6 +346,5 @@ public class GUItest extends javax.swing.JFrame {
                 System.out.println("Open command cancelled by user.");
             }
         }
-    }//GEN-LAST:event_uploadButtonActionPerformed
-    // End of variables declaration//GEN-END:variables
+    }
 }
