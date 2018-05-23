@@ -3,6 +3,7 @@ package ASRSController;
 import com.fazecast.jSerialComm.SerialPort;
 
 import java.io.IOException;
+import java.util.List;
 
 class Arduino {
     private SerialPort port;
@@ -35,6 +36,16 @@ class Arduino {
 
     void close() {
         this.port.closePort();
+    }
+
+    public static String[] getComPorts(){
+        String[] ports = new String[SerialPort.getCommPorts().length];
+        int i = 0;
+        for (SerialPort loopPort : SerialPort.getCommPorts()) {
+            ports[i] = loopPort.getDescriptivePortName();
+            i++;
+        }
+        return ports;
     }
 }
 
