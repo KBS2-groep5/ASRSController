@@ -84,6 +84,7 @@ class GUItest extends javax.swing.JFrame {
         orderpickBox.addActionListener(this::orderpickBoxActionPerformed);
 
         sortbox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
+        sortbox.addActionListener(this::sortBoxActionPerformed);
 
         sortLabel.setText("Sorteerrobot");
 
@@ -281,14 +282,26 @@ class GUItest extends javax.swing.JFrame {
     }
 
     private void orderpickBoxActionPerformed(java.awt.event.ActionEvent evt) {
-        //doe iets met met de arduino
+        //TODO: COMM port staat nu hardcoded hier, beter passen we dat aan
         try {
             Arduino arduino = new Arduino("COM5");
-            System.out.println("Gelukt BIATCH");
 
             arduino.sendCommand("left");
             arduino.sendCommand("left");
             arduino.sendCommand("right");
+
+        } catch (InterruptedException e) {
+            System.out.println("Kijk dit gaat er fout: ");
+            e.printStackTrace();
+        }
+
+
+    }
+    private void sortBoxActionPerformed(java.awt.event.ActionEvent evt) {
+        //TODO: hier dus ook
+        try {
+            Arduino arduino = new Arduino("COM4");
+
 
         } catch (InterruptedException e) {
             System.out.println("Kijk dit gaat er fout: ");
