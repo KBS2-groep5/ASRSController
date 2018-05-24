@@ -28,10 +28,25 @@ class Arduino {
         return ports;
     }
 
-    void write(byte[] bytes) throws IOException {
-        // todo: check if port is open (currently throws NullPointerException)
-        this.port.getOutputStream().write(bytes);
-        this.port.getOutputStream().flush();
+    void write(byte[] bytes) throws IOException, InterruptedException {
+        if(this.port.isOpen()) {
+            this.port.getOutputStream().write(bytes);
+            this.port.getOutputStream().flush();
+            Thread.sleep(5000);
+        }   else {
+            System.out.println("Port is not open!");
+        }
+
+    }
+    //TODO: Poort moet daarna nog gesloten worden, maar wanneer..?
+    void sendCommand(String command) throws InterruptedException {
+        try {
+            this.write(command.getBytes("UTF-8"));
+
+        } catch (IOException e) {
+            System.out.println("Failed to send command:");
+            e.printStackTrace();
+        }
     }
 
     int bytesAvailable() {
