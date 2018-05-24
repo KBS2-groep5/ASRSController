@@ -1,10 +1,14 @@
 package ASRSController;
 
+import com.fazecast.jSerialComm.SerialPort;
 import org.json.simple.JSONArray;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -177,7 +181,7 @@ class GUItest extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addGap(42, 42, 42)
+                                                .addGap(4, 4, 4)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(sortLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(orderpickLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -188,13 +192,13 @@ class GUItest extends javax.swing.JFrame {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(robotStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(132, 132, 132)
+                                .addGap(42, 42, 42)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                                                 .addComponent(stopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(42, 42, 42))
+                                                .addGap(4, 4, 4))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -277,6 +281,20 @@ class GUItest extends javax.swing.JFrame {
     }
 
     private void orderpickBoxActionPerformed(java.awt.event.ActionEvent evt) {
+        //doe iets met met de arduino
+        try {
+            Arduino arduino = new Arduino("COM5");
+            System.out.println("Gelukt BIATCH");
+
+            arduino.sendCommand("left");
+            arduino.sendCommand("left");
+            arduino.sendCommand("right");
+
+        } catch (InterruptedException e) {
+            System.out.println("Kijk dit gaat er fout: ");
+            e.printStackTrace();
+        }
+
 
     }
 
