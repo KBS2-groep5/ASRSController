@@ -20,12 +20,29 @@ class TspPanel extends JPanel {
     void addPackage(Package p) {
         this.packageList.add(p);
         this.packageList = TSPAlgorithm.sort(this.packageList);
+        System.out.println(this.getCommands(this.packageList));
         repaint();
     }
 
     void clearPackages() {
         this.packageList = new ArrayList<>();
         repaint();
+    }
+
+    static List<String> getCommands(List<Package> packageList){
+        List<String> commands = new ArrayList<>();
+        for(int c = 0; c < packageList.size(); c++){
+            Package t = packageList.get(c);
+            for(int x = 0; x < t.getX(); x++){
+                commands.add("right");
+            }
+            for(int y = 0; y < t.getY(); y++){
+                commands.add("down");
+            }
+            commands.add("push");
+        }
+
+        return commands;
     }
 
     @Override
