@@ -3,11 +3,12 @@ package ASRSController;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 class TspPanel extends JPanel {
     private final int x = 325;
     private final int y = 345;
-    private ArrayList<Package> packageList = new ArrayList<>();
+    private List<Package> packageList = new ArrayList<>();
 
     TspPanel() {
         setBackground(Color.white);
@@ -18,6 +19,7 @@ class TspPanel extends JPanel {
 
     void addPackage(Package p) {
         this.packageList.add(p);
+        this.packageList = TSPAlgorithm.sort(this.packageList);
         repaint();
     }
 
