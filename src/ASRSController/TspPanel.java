@@ -24,18 +24,18 @@ class TspPanel extends JPanel {
     void addPackage(Package p) {
         this.packageList.add(p);
         this.packageList = TSPAlgorithm.sort(this.packageList);
-        repaint();
+        this.paintImmediately(0, 0, 1000, 1000);
     }
 
     void clearPackages() {
         this.packageList = new ArrayList<>();
-        repaint();
+        this.paintImmediately(0, 0, 1000, 1000);
     }
 
     void setPackageStatus(int index, boolean packed) {
         try {
             this.packageList.get(index).setPacked(packed);
-            repaint();
+            this.paintImmediately(0, 0, 1000, 1000);
         }
         catch(Exception e) {
             e.printStackTrace();

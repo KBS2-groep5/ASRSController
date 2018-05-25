@@ -86,9 +86,11 @@ class GUItest extends javax.swing.JFrame {
 
         orderpickBox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
         orderpickBox.addActionListener(this::selectOrderPickBox);
+        this.selectedOrderPickPort = orderpickBox.getSelectedItem().toString();
 
         sortbox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
         sortbox.addActionListener(this::selectSortBox);
+        this.selectedSortPort = sortbox.getSelectedItem().toString();
 
         sortLabel.setText("Sorteerrobot");
 
@@ -306,11 +308,23 @@ class GUItest extends javax.swing.JFrame {
             Arduino arduino2 = new Arduino(port2);
 
             List<String> commandlist = Arduino.getTSPCommands(tspPanel.getPackageList());
-            System.out.println(commandlist);
+            int i = 0;
             for(String c : commandlist) {
                 arduino1.sendCommand(c);
+                if(c.equals("push")){
+                    tspPanel.setPackageStatus(i, true);
+                    i++;
+                }
+                /* if(//iets van arduino 2 ){
+                    //bytes shit
+                    bppPanel.paintImmediately(0, 0, 1000, 1000);
+                }
+                */
             }
+            bppPanel.paintImmediately(0, 0, 1000, 1000);
 
+            arduino1.close();
+            arduino2.close();
         } catch (InterruptedException e) {
             System.out.println("Kijk dit gaat er fout: ");
             e.printStackTrace();
@@ -321,6 +335,8 @@ class GUItest extends javax.swing.JFrame {
         if (evt.getSource() != uploadButton) {
             return;
         }
+        tspPanel.clearPackages();
+
         int returnVal = fc.showOpenDialog(GUItest.this);
 
         if (returnVal != JFileChooser.APPROVE_OPTION) {
