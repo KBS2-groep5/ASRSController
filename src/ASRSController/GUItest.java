@@ -30,6 +30,9 @@ class GUItest extends javax.swing.JFrame {
     private javax.swing.JTable productsTable;
     private javax.swing.JButton uploadButton;
 
+    private String selectedOrderPickPort;
+    private String selectedSortPort;
+
     GUItest() {
         fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -74,6 +77,7 @@ class GUItest extends javax.swing.JFrame {
         JScrollPane jScrollPane1 = new JScrollPane();
         productsTable = new javax.swing.JTable();
 
+
         jScrollPane2.setViewportView(jTextPane2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,10 +85,10 @@ class GUItest extends javax.swing.JFrame {
         setName("GUI"); // NOI18N
 
         orderpickBox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
-        orderpickBox.addActionListener(this::orderpickBoxActionPerformed);
+        orderpickBox.addActionListener(this::selectOrderPickBox);
 
         sortbox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
-        sortbox.addActionListener(this::sortBoxActionPerformed);
+        orderpickBox.addActionListener(this::selectSortBox);
 
         sortLabel.setText("Sorteerrobot");
 
@@ -281,38 +285,38 @@ class GUItest extends javax.swing.JFrame {
         pack();
     }
 
-    private void orderpickBoxActionPerformed(java.awt.event.ActionEvent evt) {
-        //TODO: COMM port staat nu hardcoded hier, beter passen we dat aan
-        try {
-            Arduino arduino = new Arduino("COM5");
-
-
-            arduino.sendCommand("right");
-
-        } catch (InterruptedException e) {
-            System.out.println("Kijk dit gaat er fout: ");
-            e.printStackTrace();
-        }
-
-
+    private void selectOrderPickBox(java.awt.event.ActionEvent evt){
+        JComboBox<String> orderPickBox = (JComboBox<String>) evt.getSource();
+        this.selectedOrderPickPort = orderPickBox.getSelectedItem().toString();
     }
-    private void sortBoxActionPerformed(java.awt.event.ActionEvent evt) {
-        //TODO: hier dus ook
-        try {
-            Arduino arduino = new Arduino("COM4");
 
-            arduino.sendCommand("left");
-
-        } catch (InterruptedException e) {
-            System.out.println("Kijk dit gaat er fout: ");
-            e.printStackTrace();
-        }
-
-
+    private void selectSortBox(java.awt.event.ActionEvent evt){
+        JComboBox<String> sortBox = (JComboBox<String>) evt.getSource();
+        this.selectedSortPort = sortBox.getSelectedItem().toString();
     }
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        String port1 = this.selectedOrderPickPort;
+        System.out.println(port1);
+        port1 = port1.substring(port1.lastIndexOf("(")+ 1, port1.lastIndexOf(")"));
+        String port2 = this.selectedSortPort;
+        System.out.println(port2);
+        port2 = port2.substring(port2.lastIndexOf("(")+ 1, port2.lastIndexOf(")"));
+        System.out.println(port1);
+        System.out.println(port2);
+        try {
 
+            Arduino arduino1 = new Arduino(port1);
+            Arduino arduino2 = new Arduino(port2);
+
+
+            arduino1.sendCommand("right");
+            arduino2.sendCommand("start");
+
+        } catch (InterruptedException e) {
+            System.out.println("Kijk dit gaat er fout: ");
+            e.printStackTrace();
+        }
     }
 
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {

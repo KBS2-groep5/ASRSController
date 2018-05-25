@@ -34,7 +34,7 @@ class Arduino {
         if(this.port.isOpen()) {
             this.port.getOutputStream().write(bytes);
             this.port.getOutputStream().flush();
-            Thread.sleep(5000);
+            Thread.sleep(1500);
         }   else {
             System.out.println("Port is not open!");
         }
