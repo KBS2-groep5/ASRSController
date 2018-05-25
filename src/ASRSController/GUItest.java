@@ -359,6 +359,8 @@ class GUItest extends javax.swing.JFrame {
             i++;
         }
 
+        System.out.println(Arduino.getTSPCommands(this.tspPanel.getPackageList()));
+
         List<Container> solution = BPPAlgorithm.solve(productList);
         this.bppPanel.setContainers(solution);
 
