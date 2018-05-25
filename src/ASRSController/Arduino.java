@@ -3,6 +3,8 @@ package ASRSController;
 import com.fazecast.jSerialComm.SerialPort;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 class Arduino {
     private SerialPort port;
@@ -47,6 +49,33 @@ class Arduino {
             System.out.println("Failed to send command:");
             e.printStackTrace();
         }
+    }
+
+    static List<String> getTSPCommands(List<Package> packageList){
+        List<String> commands = new ArrayList<>();
+        int x = 0;
+        int y = 4;
+        for(int c = 0; c < packageList.size(); c++){
+            Package t = packageList.get(c);
+            for(x = x; x < t.getX(); x++){
+                commands.add("right");
+            }
+            for(x = x; x > t.getX(); x--){
+                commands.add("left");
+            }
+            for(y = y; y < t.getY(); y++){
+                commands.add("down");
+            }
+            for(y = y; y > t.getY(); y--){
+                commands.add("up");
+            }
+            commands.add("push");
+            x = t.getX();
+            y = t.getY();
+        }
+        commands.add("goDown");
+        commands.add("goLeft");
+        return commands;
     }
 
     int bytesAvailable() {
