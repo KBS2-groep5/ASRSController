@@ -189,7 +189,7 @@ class GUItest extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(orderpickBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(sortbox, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addComponent(sortbox, javax.swing.GroupLayout.PREFERRED_SIZE, 67, Short.MAX_VALUE)))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(robotStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -286,8 +286,7 @@ class GUItest extends javax.swing.JFrame {
         try {
             Arduino arduino = new Arduino("COM5");
 
-            arduino.sendCommand("left");
-            arduino.sendCommand("left");
+
             arduino.sendCommand("right");
 
         } catch (InterruptedException e) {
@@ -302,6 +301,7 @@ class GUItest extends javax.swing.JFrame {
         try {
             Arduino arduino = new Arduino("COM4");
 
+            arduino.sendCommand("left");
 
         } catch (InterruptedException e) {
             System.out.println("Kijk dit gaat er fout: ");
