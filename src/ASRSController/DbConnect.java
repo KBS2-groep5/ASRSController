@@ -12,6 +12,7 @@ class DbConnect {
             String url = "jdbc:mysql://localhost:3306/kbs2a?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
             this.con = DriverManager.getConnection(url, "root", "");
         } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("check if database if connected");
             e.printStackTrace();
         }
     }
