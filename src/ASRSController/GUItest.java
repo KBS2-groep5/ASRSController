@@ -84,13 +84,11 @@ class GUItest extends javax.swing.JFrame {
         setTitle("Automated Storage and Retrieval System");
         setName("GUI"); // NOI18N
 
-        sortbox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
-        orderpickBox.addActionListener(this::selectSortBox);
-
         orderpickBox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
         orderpickBox.addActionListener(this::selectOrderPickBox);
 
-
+        sortbox.setModel(new javax.swing.DefaultComboBoxModel<>(Arduino.getComPorts()));
+        sortbox.addActionListener(this::selectSortBox);
 
         sortLabel.setText("Sorteerrobot");
 
@@ -298,30 +296,20 @@ class GUItest extends javax.swing.JFrame {
     }
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
-//        String port1 = this.selectedOrderPickPort;
-//        System.out.println(port1);
-//        port1 = port1.substring(port1.lastIndexOf("(")+ 1, port1.lastIndexOf(")"));
-//        String port2 = this.selectedSortPort;
-//        System.out.println(port2);
-//        port2 = port2.substring(port2.lastIndexOf("(")+ 1, port2.lastIndexOf(")"));
-//        System.out.println(port1);
-//        System.out.println(port2);
+        String port1 = this.selectedOrderPickPort;
+        port1 = port1.substring(port1.lastIndexOf("(")+ 1, port1.lastIndexOf(")"));
+        String port2 = this.selectedSortPort;
+        port2 = port2.substring(port2.lastIndexOf("(")+ 1, port2.lastIndexOf(")"));
         try {
 
-            Arduino arduino1 = new Arduino("COM5");
-            Arduino arduino2 = new Arduino("COM6");
-
-
+            Arduino arduino1 = new Arduino(port1);
+            Arduino arduino2 = new Arduino(port2);
 
             List<String> commandlist = Arduino.getTSPCommands(tspPanel.getPackageList());
             System.out.println(commandlist);
             for(String c : commandlist) {
                 arduino1.sendCommand(c);
             }
-//            arduino1.sendCommand("left");
-//            arduino1.sendCommand("down");
-//            arduino2.sendCommand("start");
-
 
         } catch (InterruptedException e) {
             System.out.println("Kijk dit gaat er fout: ");
