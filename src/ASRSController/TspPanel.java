@@ -32,6 +32,16 @@ class TspPanel extends JPanel {
         repaint();
     }
 
+    void setPackageStatus(int index, boolean packed) {
+        try {
+            this.packageList.get(index).setPacked(packed);
+            repaint();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

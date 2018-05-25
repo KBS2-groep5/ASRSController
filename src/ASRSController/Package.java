@@ -6,7 +6,7 @@ public class Package {
     private final int x;
     private final int y;
     private final int height;
-    private final boolean packed;
+    private boolean packed;
 
     Package(int productNr, String name, int x, int y, int height, boolean packed) {
         this.productNr = productNr;
@@ -39,6 +39,10 @@ public class Package {
 
     boolean getPacked() {
         return this.packed;
+    }
+
+    void setPacked(boolean packed) {
+        this.packed = packed;
     }
 
     double getDistanceTo(Package c2) {
