@@ -34,7 +34,7 @@ class Arduino {
         if(this.port.isOpen()) {
             this.port.getOutputStream().write(bytes);
             this.port.getOutputStream().flush();
-            Thread.sleep(1500);
+            Thread.sleep(2800);
         }   else {
             System.out.println("Port is not open!");
         }
@@ -73,8 +73,7 @@ class Arduino {
             x = t.getX();
             y = t.getY();
         }
-        commands.add("goDown");
-        commands.add("goLeft");
+        commands.add("return");
         return commands;
     }
 
