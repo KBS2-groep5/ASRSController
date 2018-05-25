@@ -315,11 +315,11 @@ class GUItest extends javax.swing.JFrame {
                     tspPanel.setPackageStatus(i, true);
                     i++;
                 }
-                /* if(//iets van arduino 2 ){
-                    //bytes shit
+                if(arduino2.bytesAvailable() > 0){
+                    byte[] buf = new byte[]{0};
+                    arduino2.readBytes(buf);
                     bppPanel.paintImmediately(0, 0, 1000, 1000);
                 }
-                */
             }
             bppPanel.paintImmediately(0, 0, 1000, 1000);
 
