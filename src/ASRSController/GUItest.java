@@ -114,6 +114,7 @@ class GUItest extends javax.swing.JFrame {
         startButton.addActionListener(this::startButtonActionPerformed);
 
         stopButton.setText("Stop");
+        stopButton.addActionListener(this::stopButtonActionPreformed);
 
         uploadLabel.setText("JSON order uploaden");
 
@@ -335,6 +336,10 @@ class GUItest extends javax.swing.JFrame {
             System.out.println("Kijk dit gaat er fout: ");
             e.printStackTrace();
         }
+    }
+
+    private void stopButtonActionPreformed(java.awt.event.ActionEvent evt) {
+        tspPanel.clearPackages();
     }
 
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {
