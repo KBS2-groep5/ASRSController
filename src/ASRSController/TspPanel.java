@@ -32,9 +32,9 @@ class TspPanel extends JPanel {
         this.paintImmediately(0, 0, 1000, 1000);
     }
 
-    void setPackageStatus(int index, boolean packed) {
+    void setPackageStatus(int index, boolean kickedOut) {
         try {
-            this.packageList.get(index).setPacked(packed);
+            this.packageList.get(index).setKickedOut(kickedOut);
             this.paintImmediately(0, 0, 1000, 1000);
         }
         catch(Exception e) {
@@ -50,7 +50,7 @@ class TspPanel extends JPanel {
         int y = this.y / 5;
 
         for (Package p : packageList) {
-            g.setColor(p.getPacked() ? Color.GREEN : Color.RED);
+            g.setColor(p.getKickedOut() ? Color.GREEN : Color.RED);
             g.fillRect(x * p.getX(), y * p.getY(), x, y);
         }
 

@@ -7,14 +7,16 @@ public class Package {
     private final int y;
     private final int height;
     private boolean packed;
+    private boolean kickedOut;
 
-    Package(int productNr, String name, int x, int y, int height, boolean packed) {
+    Package(int productNr, String name, int x, int y, int height, boolean packed, boolean kickedOut) {
         this.productNr = productNr;
         this.name = name;
         this.x = x;
         this.y = y;
         this.height = height;
         this.packed = packed;
+        this.kickedOut = kickedOut;
     }
 
     int getProductNr() {
@@ -43,6 +45,14 @@ public class Package {
 
     void setPacked(boolean packed) {
         this.packed = packed;
+    }
+
+    boolean getKickedOut() {
+        return this.kickedOut;
+    }
+
+    void setKickedOut(boolean kickedOut) {
+        this.kickedOut = kickedOut;
     }
 
     double getDistanceTo(Package c2) {

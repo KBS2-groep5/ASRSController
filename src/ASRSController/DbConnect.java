@@ -29,6 +29,7 @@ class DbConnect {
                         resultSet.getInt("x"),
                         resultSet.getInt("y"),
                         resultSet.getInt("height"),
+                        false,
                         false
                 );
             }

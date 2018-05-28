@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-class Arduino {
+abstract class Arduino {
     private SerialPort port;
 
     Arduino(String portDescriptor) throws InterruptedException {

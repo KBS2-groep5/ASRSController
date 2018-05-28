@@ -1,14 +1,10 @@
 package ASRSController;
 
-import com.fazecast.jSerialComm.SerialPort;
 import org.json.simple.JSONArray;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -87,7 +83,7 @@ class GUItest extends javax.swing.JFrame {
 
         orderpickBox.setModel(new javax.swing.DefaultComboBoxModel<>());
         orderpickBox.addActionListener(this::selectOrderPickBox);
-        for (String temp: Arduino.getComPorts()) {
+        for (String temp : Arduino.getComPorts()) {
             orderpickBox.addItem(temp);
         }
         orderpickBox.addItem("Choose port ()");
@@ -95,7 +91,7 @@ class GUItest extends javax.swing.JFrame {
 
         sortbox.setModel(new javax.swing.DefaultComboBoxModel<>());
         sortbox.addActionListener(this::selectSortBox);
-        for (String temp: Arduino.getComPorts()) {
+        for (String temp : Arduino.getComPorts()) {
             sortbox.addItem(temp);
         }
         sortbox.addItem("Choose port ()");
@@ -295,45 +291,55 @@ class GUItest extends javax.swing.JFrame {
         pack();
     }
 
-    private void selectOrderPickBox(java.awt.event.ActionEvent evt){
+    private void selectOrderPickBox(java.awt.event.ActionEvent evt) {
         JComboBox<String> orderPickBox = (JComboBox<String>) evt.getSource();
         this.selectedOrderPickPort = orderPickBox.getSelectedItem().toString();
     }
 
-    private void selectSortBox(java.awt.event.ActionEvent evt){
+    private void selectSortBox(java.awt.event.ActionEvent evt) {
         JComboBox<String> sortBox = (JComboBox<String>) evt.getSource();
         this.selectedSortPort = sortBox.getSelectedItem().toString();
     }
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // todo: early return if already running
         String port1 = this.selectedOrderPickPort;
-        port1 = port1.substring(port1.lastIndexOf("(")+ 1, port1.lastIndexOf(")"));
+        port1 = port1.substring(port1.lastIndexOf("(") + 1, port1.lastIndexOf(")"));
         String port2 = this.selectedSortPort;
-        port2 = port2.substring(port2.lastIndexOf("(")+ 1, port2.lastIndexOf(")"));
+        port2 = port2.substring(port2.lastIndexOf("(") + 1, port2.lastIndexOf(")"));
         ReceiptWriter.writeReceipts(bppPanel.getContainers(), this.filePath);
         try {
 
-            Arduino arduino1 = new Arduino(port1);
-            Arduino arduino2 = new Arduino(port2);
+            TSPArduino arduino1 = new TSPArduino(port1);
+            BPPArduino arduino2 = new BPPArduino(port2);
+            System.out.println("Sending...");
+            arduino1.sendOrder(tspPanel.getPackageList());
+            arduino2.sendOrder(tspPanel.getPackageList(), bppPanel.getContainers());
+            System.out.println("Sent...");
+            int numberOfPackagesKickedOut = 0;
+            int numberOfPackagesPacked = 0;
 
-            List<String> commandlist = Arduino.getTSPCommands(tspPanel.getPackageList());
-            int i = 0;
-            for(String c : commandlist) {
-                if(run == false){
-                    continue;
+            boolean running = true;
+
+            while (running) {
+                if (arduino1.bytesAvailable() > 0) {
+                    arduino1.readBytes(new byte[]{0});
+                    tspPanel.getPackageList().get(numberOfPackagesKickedOut).setKickedOut(true);
+                    numberOfPackagesKickedOut += 1;
+                    System.out.println("Kicked out");
                 }
-                arduino1.sendCommand(c);
-                if(c.equals("push")){
-                    tspPanel.setPackageStatus(i, true);
-                    i++;
-                }
-                if(arduino2.bytesAvailable() > 0){
-                    byte[] buf = new byte[]{0};
-                    arduino2.readBytes(buf);
+
+                if (arduino2.bytesAvailable() > 0) {
+                    arduino2.readBytes(new byte[]{0});
+                    tspPanel.getPackageList().get(numberOfPackagesPacked).setKickedOut(true);
+                    numberOfPackagesPacked += 1;
+                    System.out.println("Packed");
                     bppPanel.paintImmediately(0, 0, 1000, 1000);
+                    running = numberOfPackagesPacked >= tspPanel.getPackageList().size();
                 }
             }
-            bppPanel.paintImmediately(0, 0, 1000, 1000);
+
+            System.out.println("Done running");
 
             arduino1.close();
             arduino2.close();
