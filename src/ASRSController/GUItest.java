@@ -82,7 +82,7 @@ class GUItest extends javax.swing.JFrame {
 
         orderpickBox.setModel(new javax.swing.DefaultComboBoxModel<>());
         orderpickBox.addActionListener(this::selectOrderPickBox);
-        for (String temp : Arduino.getComPorts()) {
+        for (String temp: Arduino.getComPorts()) {
             orderpickBox.addItem(temp);
         }
         orderpickBox.addItem("Choose port ()");
@@ -90,7 +90,7 @@ class GUItest extends javax.swing.JFrame {
 
         sortbox.setModel(new javax.swing.DefaultComboBoxModel<>());
         sortbox.addActionListener(this::selectSortBox);
-        for (String temp : Arduino.getComPorts()) {
+        for (String temp: Arduino.getComPorts()) {
             sortbox.addItem(temp);
         }
         sortbox.addItem("Choose port ()");
