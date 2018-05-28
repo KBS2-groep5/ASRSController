@@ -17,7 +17,7 @@ import static java.lang.Math.toIntExact;
 
 class GUItest extends javax.swing.JFrame {
     private JFileChooser fc;
-
+    private boolean run = true;
     private DbConnect db;
 
     private TspPanel tspPanel = new TspPanel();
@@ -317,6 +317,9 @@ class GUItest extends javax.swing.JFrame {
             List<String> commandlist = Arduino.getTSPCommands(tspPanel.getPackageList());
             int i = 0;
             for(String c : commandlist) {
+                if(run == false){
+                    continue;
+                }
                 arduino1.sendCommand(c);
                 if(c.equals("push")){
                     tspPanel.setPackageStatus(i, true);
@@ -339,7 +342,7 @@ class GUItest extends javax.swing.JFrame {
     }
 
     private void stopButtonActionPreformed(java.awt.event.ActionEvent evt) {
-        tspPanel.clearPackages();
+        this.run = false;
     }
 
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -356,6 +359,13 @@ class GUItest extends javax.swing.JFrame {
 
         File file = fc.getSelectedFile();
         System.out.println("Opening: " + file.getName() + ".");
+
+        int s = file.getName().lastIndexOf(".");
+        if (!file.getName().substring(s + 1).equals("json")) {
+            JOptionPane.showMessageDialog(null, "The file you selected is not a json file. You selected: " + file.getName().substring(s + 1));
+            return;
+        }
+
         JSONReadFromFile JSON = new JSONReadFromFile(file.getPath());
 
         this.ordernumber.setText(JSON.getOrdernr());
