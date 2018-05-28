@@ -334,7 +334,7 @@ class GUItest extends javax.swing.JFrame {
                     tspPanel.getPackageList().get(numberOfPackagesPacked).setPacked(true);
                     bppPanel.paintImmediately(0, 0, 1000, 1000);
                     numberOfPackagesPacked += 1;
-                    running = numberOfPackagesPacked >= tspPanel.getPackageList().size();
+                    running = numberOfPackagesPacked < tspPanel.getPackageList().size();
                 }
             }
 
