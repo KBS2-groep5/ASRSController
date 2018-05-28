@@ -13,7 +13,9 @@ class BPPArduino extends Arduino {
         int current = 0;
         List<Package> lastPackageContainers = new ArrayList<Package>();
         for(Container c : containers){
-            lastPackageContainers.add(c.getPackages().get(c.getPackages().size()));
+            if(c.getPackages().size() == 0){ continue; }
+            int tempLength = c.getPackages().size()-1;
+            lastPackageContainers.add(c.getPackages().get(tempLength));
         }
 
         for (Package p : packages) {
@@ -23,7 +25,7 @@ class BPPArduino extends Arduino {
             else {
                 commands[current] = 98;
             }
-            if(lastPackageContainers == p){
+            if(lastPackageContainers.contains(p)){
                 if(containers.get(0).getPackages().contains(p)){
                     commands[current] = 11;
                 } else {

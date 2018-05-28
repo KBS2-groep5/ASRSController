@@ -51,35 +51,6 @@ abstract class Arduino {
         }
     }
 
-    static List<String> getTSPCommands(List<Package> packageList){
-        List<String> commands = new ArrayList<>();
-        commands.add("g");
-        commands.add("f");
-        commands.add("h");
-        int x = 0;
-        int y = 4;
-        for(int c = 0; c < packageList.size(); c++){
-            Package t = packageList.get(c);
-            for(x = x; x < t.getX(); x++){
-                commands.add("b");
-            }
-            for(x = x; x > t.getX(); x--){
-                commands.add("a");
-            }
-            for(y = y; y < t.getY(); y++){
-                commands.add("d");
-            }
-            for(y = y; y > t.getY(); y--){
-                commands.add("c");
-            }
-            commands.add("e");
-            x = t.getX();
-            y = t.getY();
-        }
-        commands.add("i");
-        return commands;
-    }
-
 
     int bytesAvailable() {
         return this.port.bytesAvailable();
