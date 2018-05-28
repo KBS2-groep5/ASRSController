@@ -18,6 +18,7 @@ import static java.lang.Math.toIntExact;
 class GUItest extends javax.swing.JFrame {
     private JFileChooser fc;
     private boolean run = true;
+    private String filePath = "";
     private DbConnect db;
 
     private TspPanel tspPanel = new TspPanel();
@@ -309,6 +310,7 @@ class GUItest extends javax.swing.JFrame {
         port1 = port1.substring(port1.lastIndexOf("(")+ 1, port1.lastIndexOf(")"));
         String port2 = this.selectedSortPort;
         port2 = port2.substring(port2.lastIndexOf("(")+ 1, port2.lastIndexOf(")"));
+        ReceiptWriter.writeReceipts(bppPanel.getContainers(), this.filePath);
         try {
 
             Arduino arduino1 = new Arduino(port1);
@@ -366,7 +368,9 @@ class GUItest extends javax.swing.JFrame {
             return;
         }
 
-        JSONReadFromFile JSON = new JSONReadFromFile(file.getPath());
+        this.filePath = file.getPath();
+
+        JSONReadFromFile JSON = new JSONReadFromFile(this.filePath);
 
         this.ordernumber.setText(JSON.getOrdernr());
         this.adress.setText(JSON.getAdress());
@@ -397,8 +401,6 @@ class GUItest extends javax.swing.JFrame {
 
             i++;
         }
-
-        System.out.println(Arduino.getTSPCommands(this.tspPanel.getPackageList()));
 
         List<Container> solution = BPPAlgorithm.solve(productList);
         this.bppPanel.setContainers(solution);

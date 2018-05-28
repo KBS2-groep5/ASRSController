@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ReceiptWriter {
 
-    public static void writeReceipt(String box, String orderNr, String firstName, String lastName, String adress, String postalCode, String place, String date, List<Package> packages) {
+    private static void writeReceipt(String box, String orderNr, String firstName, String lastName, String adress, String postalCode, String place, String date, List<Package> packages) {
         try {
             List<String> lines = new ArrayList<>();
             lines.add("Ordernr: "  + orderNr);
@@ -35,14 +35,18 @@ public class ReceiptWriter {
             e.printStackTrace();
         }
     }
-    /*
-                try {
-                    Package p = new Package(1, "test", 1, 1, 5);
-                    List tempList = new ArrayList<>();
-                    tempList.add(p);
-                    writeReceipt("1", JSON.getOrdernr(), JSON.getFirstName(), JSON.getLastName(), JSON.getAdress(), JSON.getPostcode(), JSON.getPlace(), JSON.getDate(), tempList);
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-    */
+
+    public static void writeReceipts(List<Container> containers, String path){
+        try {
+            JSONReadFromFile JSON = new JSONReadFromFile(path);
+            for (int i = 0; i < containers.size(); i++) {
+                Container container = containers.get(i);
+                List tempList = new ArrayList<>();
+                tempList.addAll(container.getPackages());
+                ReceiptWriter.writeReceipt(Integer.toString(i + 1), JSON.getOrdernr(), JSON.getFirstName(), JSON.getLastName(), JSON.getAdress(), JSON.getPostcode(), JSON.getPlace(), JSON.getDate(), tempList);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }
