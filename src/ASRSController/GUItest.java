@@ -6,9 +6,6 @@ import org.json.simple.JSONArray;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +14,6 @@ import static java.lang.Math.toIntExact;
 
 class GUItest extends javax.swing.JFrame {
     private JFileChooser fc;
-    private boolean run = true;
     private String filePath = "";
     private DbConnect db;
 
@@ -319,9 +315,6 @@ class GUItest extends javax.swing.JFrame {
             List<String> commandlist = Arduino.getTSPCommands(tspPanel.getPackageList());
             int i = 0;
             for(String c : commandlist) {
-                if(run == false){
-                    continue;
-                }
                 arduino1.sendCommand(c);
                 if(c.equals("push")){
                     tspPanel.setPackageStatus(i, true);
@@ -344,7 +337,7 @@ class GUItest extends javax.swing.JFrame {
     }
 
     private void stopButtonActionPreformed(java.awt.event.ActionEvent evt) {
-        this.run = false;
+        //this.run = false;
     }
 
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {
