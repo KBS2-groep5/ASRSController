@@ -13,7 +13,6 @@ import static java.lang.Math.toIntExact;
 
 class GUItest extends javax.swing.JFrame {
     private JFileChooser fc;
-    private boolean run = true;
     private String filePath = "";
     private DbConnect db;
 
@@ -350,7 +349,7 @@ class GUItest extends javax.swing.JFrame {
     }
 
     private void stopButtonActionPreformed(java.awt.event.ActionEvent evt) {
-        this.run = false;
+        //this.run = false;
     }
 
     private void uploadButtonActionPerformed(java.awt.event.ActionEvent evt) {
