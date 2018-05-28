@@ -9,22 +9,21 @@ class BPPArduino extends Arduino {
     }
 
     void sendOrder(List<Package> packages, List<Container> containers) {
-        byte[] commands = new byte[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,99};
+        byte[] commands = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99};
         int current = 0;
         List<Package> lastPackageContainers = new ArrayList<Package>();
-        for(Container c : containers){
+        for (Container c : containers) {
             lastPackageContainers.add(c.getPackages().get(c.getPackages().size()));
         }
 
         for (Package p : packages) {
             if (containers.get(0).getPackages().contains(p)) {
                 commands[current] = 97;
-            }
-            else {
+            } else {
                 commands[current] = 98;
             }
-            if(lastPackageContainers == p){
-                if(containers.get(0).getPackages().contains(p)){
+            if (lastPackageContainers == p) {
+                if (containers.get(0).getPackages().contains(p)) {
                     commands[current] = 11;
                 } else {
                     commands[current] = 12;
@@ -35,8 +34,7 @@ class BPPArduino extends Arduino {
 
         try {
             this.write(commands);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

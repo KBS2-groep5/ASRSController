@@ -1,9 +1,8 @@
 package ASRSController;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class TSPArduino extends Arduino {
+class TSPArduino extends Arduino {
     TSPArduino(String portDescriptor) throws InterruptedException {
         super(portDescriptor);
     }

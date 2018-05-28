@@ -1,14 +1,13 @@
 package ASRSController;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 class TSPAlgorithm {
-     static List<Package> sort(List<Package> packageList){
+    static List<Package> sort(List<Package> packageList) {
         List<Package> path = new ArrayList<>();
         path.add(packageList.get(0));
 
-        int steps = 0;
         while (packageList.size() > path.size()) {
             double shortestDistance = 99999;
             Integer shortestIndex = null;
@@ -22,7 +21,6 @@ class TSPAlgorithm {
             }
             //noinspection ConstantConditions
             path.add(packageList.get(shortestIndex));
-            steps++;
         }
 
         return path;

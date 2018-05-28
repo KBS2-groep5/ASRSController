@@ -16,12 +16,12 @@ public class BppPanel extends JPanel {
         setBounds(710, 80, this.x, this.y);
     }
 
-    public void setContainers(List<Container> containers) {
-        this.containers = containers;
+    List<Container> getContainers() {
+        return this.containers;
     }
 
-    public List<Container> getContainers(){
-        return this.containers;
+    void setContainers(List<Container> containers) {
+        this.containers = containers;
     }
 
     @Override

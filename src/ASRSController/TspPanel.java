@@ -13,11 +13,10 @@ class TspPanel extends JPanel {
     TspPanel() {
         setBackground(Color.white);
         setBorder(BorderFactory.createLineBorder(Color.black));
-        //setSize(315, 335);
         setBounds(10, 150, this.x, this.y);
     }
 
-    public List<Package> getPackageList(){
+    List<Package> getPackageList() {
         return this.packageList;
     }
 
