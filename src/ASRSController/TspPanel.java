@@ -32,16 +32,6 @@ class TspPanel extends JPanel {
         this.paintImmediately(0, 0, 1000, 1000);
     }
 
-    void setPackageStatus(int index, boolean kickedOut) {
-        try {
-            this.packageList.get(index).setKickedOut(kickedOut);
-            this.paintImmediately(0, 0, 1000, 1000);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

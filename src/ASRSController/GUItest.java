@@ -322,18 +322,18 @@ class GUItest extends javax.swing.JFrame {
 
             while (running) {
                 if (arduino1.bytesAvailable() > 0) {
-                    arduino1.readBytes(new byte[]{0});
+                    byte[] buf = new byte[]{0};
+                    arduino1.readBytes(buf);
                     tspPanel.getPackageList().get(numberOfPackagesKickedOut).setKickedOut(true);
+                    tspPanel.paintImmediately(0, 0, 1000, 1000);
                     numberOfPackagesKickedOut += 1;
-                    System.out.println("Kicked out");
                 }
 
                 if (arduino2.bytesAvailable() > 0) {
                     arduino2.readBytes(new byte[]{0});
-                    tspPanel.getPackageList().get(numberOfPackagesPacked).setKickedOut(true);
-                    numberOfPackagesPacked += 1;
-                    System.out.println("Packed");
+                    tspPanel.getPackageList().get(numberOfPackagesPacked).setPacked(true);
                     bppPanel.paintImmediately(0, 0, 1000, 1000);
+                    numberOfPackagesPacked += 1;
                     running = numberOfPackagesPacked >= tspPanel.getPackageList().size();
                 }
             }
