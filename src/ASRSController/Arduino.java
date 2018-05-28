@@ -2,15 +2,16 @@ package ASRSController;
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import javax.swing.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 abstract class Arduino {
     private SerialPort port;
+    private String portDescriptor;
 
     Arduino(String portDescriptor) throws InterruptedException {
         this.port = SerialPort.getCommPort(portDescriptor);
+        this.portDescriptor = portDescriptor;
         port.setComPortParameters(9600, 8, 1, 0);
         port.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 0);
         port.openPort();
@@ -31,33 +32,23 @@ abstract class Arduino {
     }
 
     void write(byte[] bytes) throws IOException, InterruptedException {
-        if(this.port.isOpen()) {
+        if (this.port.isOpen()) {
             this.port.getOutputStream().write(bytes);
             this.port.getOutputStream().flush();
             Thread.sleep(1000);
-        }   else {
+        } else {
             System.out.println("Port is not open!");
+            JOptionPane.showMessageDialog(null, "The port \"" + this.portDescriptor + "\" is not open");
         }
 
     }
-    //TODO: Poort moet daarna nog gesloten worden, maar wanneer..?
-    void sendCommand(String command) throws InterruptedException {
-        try {
-            this.write(command.getBytes("UTF-8"));
-
-        } catch (IOException e) {
-            System.out.println("Failed to send command:");
-            e.printStackTrace();
-        }
-    }
-
 
     int bytesAvailable() {
         return this.port.bytesAvailable();
     }
 
-    int readBytes(byte[] readBuffer) {
-        return this.port.readBytes(readBuffer, readBuffer.length);
+    void readBytes(byte[] readBuffer) {
+        this.port.readBytes(readBuffer, readBuffer.length);
     }
 
     void close() {

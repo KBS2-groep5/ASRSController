@@ -5,16 +5,11 @@ import java.sql.*;
 class DbConnect {
     private Connection con;
 
-    DbConnect() {
-        try {
-            // TODO: maybe make this more customizable
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/kbs2a?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-            this.con = DriverManager.getConnection(url, "root", "");
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("check if database if connected");
-            e.printStackTrace();
-        }
+    DbConnect() throws ClassNotFoundException, SQLException {
+        // TODO: maybe make this more customizable
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        String url = "jdbc:mysql://localhost:3306/kbs2a?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        this.con = DriverManager.getConnection(url, "root", "");
     }
 
     Package getPackage(int productNr) {

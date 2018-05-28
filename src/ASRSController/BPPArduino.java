@@ -9,7 +9,7 @@ class BPPArduino extends Arduino {
     }
 
     void sendOrder(List<Package> packages, List<Container> containers) {
-        byte[] commands = new byte[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,99};
+        byte[] commands = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99};
         int current = 0;
         List<Package> lastPackageContainers = new ArrayList<Package>();
         for(Container c : containers){
@@ -21,8 +21,7 @@ class BPPArduino extends Arduino {
         for (Package p : packages) {
             if (containers.get(0).getPackages().contains(p)) {
                 commands[current] = 97;
-            }
-            else {
+            } else {
                 commands[current] = 98;
             }
             if(lastPackageContainers.contains(p)){
@@ -37,8 +36,7 @@ class BPPArduino extends Arduino {
 
         try {
             this.write(commands);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ReceiptWriter {
-
+class ReceiptWriter {
     private static void writeReceipt(String box, String orderNr, String firstName, String lastName, String adress, String postalCode, String place, String date, List<Package> packages) {
         try {
             List<String> lines = new ArrayList<>();
@@ -36,7 +35,7 @@ public class ReceiptWriter {
         }
     }
 
-    public static void writeReceipts(List<Container> containers, String path){
+    static void writeReceipts(List<Container> containers, String path){
         try {
             JSONReadFromFile JSON = new JSONReadFromFile(path);
             for (int i = 0; i < containers.size(); i++) {

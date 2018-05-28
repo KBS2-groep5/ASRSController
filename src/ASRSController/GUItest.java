@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import static java.lang.Math.toIntExact;
 
@@ -33,12 +34,19 @@ class GUItest extends javax.swing.JFrame {
         fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-        db = new DbConnect();
-
         add(this.tspPanel);
         add(this.bppPanel);
 
         initComponents();
+
+        try {
+            db = new DbConnect();
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Er kon geen verbinding gemaakt worden met de database");
+            this.dispose();
+            System.exit(0); // todo: do this nicer
+        }
     }
 
     /**
@@ -76,24 +84,24 @@ class GUItest extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(jTextPane2);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Automated Storage and Retrieval System");
         setName("GUI"); // NOI18N
 
         orderpickBox.setModel(new javax.swing.DefaultComboBoxModel<>());
         orderpickBox.addActionListener(this::selectOrderPickBox);
-        for (String temp: Arduino.getComPorts()) {
+        orderpickBox.addItem("Kies poort");
+        for (String temp : Arduino.getComPorts()) {
             orderpickBox.addItem(temp);
         }
-        orderpickBox.addItem("Choose port ()");
-        this.selectedOrderPickPort = orderpickBox.getSelectedItem().toString();
+        this.selectedOrderPickPort = Objects.requireNonNull(orderpickBox.getSelectedItem()).toString();
 
         sortbox.setModel(new javax.swing.DefaultComboBoxModel<>());
         sortbox.addActionListener(this::selectSortBox);
-        for (String temp: Arduino.getComPorts()) {
+        sortbox.addItem("Kies poort");
+        for (String temp : Arduino.getComPorts()) {
             sortbox.addItem(temp);
         }
-        sortbox.addItem("Choose port ()");
         sortLabel.setText("Sorteerrobot");
 
         orderpickLabel.setText("Orderpicker");
@@ -143,20 +151,6 @@ class GUItest extends javax.swing.JFrame {
 
         productsTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
                         {null, null},
                         {null, null},
                         {null, null},
@@ -292,29 +286,35 @@ class GUItest extends javax.swing.JFrame {
 
     private void selectOrderPickBox(java.awt.event.ActionEvent evt) {
         JComboBox<String> orderPickBox = (JComboBox<String>) evt.getSource();
-        this.selectedOrderPickPort = orderPickBox.getSelectedItem().toString();
+        this.selectedOrderPickPort = Objects.requireNonNull(orderPickBox.getSelectedItem()).toString();
     }
 
     private void selectSortBox(java.awt.event.ActionEvent evt) {
         JComboBox<String> sortBox = (JComboBox<String>) evt.getSource();
-        this.selectedSortPort = sortBox.getSelectedItem().toString();
+        this.selectedSortPort = Objects.requireNonNull(sortBox.getSelectedItem()).toString();
     }
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // todo: early return if already running
         String port1 = this.selectedOrderPickPort;
-        port1 = port1.substring(port1.lastIndexOf("(") + 1, port1.lastIndexOf(")"));
         String port2 = this.selectedSortPort;
+
+        if(port1.equals("Kies poort") || port2.equals("Kies poort")) {
+            JOptionPane.showMessageDialog(null, "Voor beide robots moet een poort geselecteerd worden");
+            return;
+        }
+
+        port1 = port1.substring(port1.lastIndexOf("(") + 1, port1.lastIndexOf(")"));
         port2 = port2.substring(port2.lastIndexOf("(") + 1, port2.lastIndexOf(")"));
         ReceiptWriter.writeReceipts(bppPanel.getContainers(), this.filePath);
-        try {
 
+        try {
             TSPArduino arduino1 = new TSPArduino(port1);
             BPPArduino arduino2 = new BPPArduino(port2);
-            System.out.println("Sending...");
+
             arduino1.sendOrder(tspPanel.getPackageList());
             arduino2.sendOrder(tspPanel.getPackageList(), bppPanel.getContainers());
-            System.out.println("Sent...");
+
             int numberOfPackagesKickedOut = 0;
             int numberOfPackagesPacked = 0;
 
@@ -343,7 +343,6 @@ class GUItest extends javax.swing.JFrame {
             arduino1.close();
             arduino2.close();
         } catch (InterruptedException e) {
-            System.out.println("Kijk dit gaat er fout: ");
             e.printStackTrace();
         }
     }
