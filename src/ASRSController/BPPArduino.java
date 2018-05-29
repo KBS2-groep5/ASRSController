@@ -19,19 +19,20 @@ class BPPArduino extends Arduino {
         }
 
         for (Package p : packages) {
-            if (containers.get(0).getPackages().contains(p)) {
-                commands[current] = 97;
-            } else {
-                commands[current] = 98;
-            }
             if(lastPackageContainers.contains(p)){
                 if(containers.get(0).getPackages().contains(p)){
                     commands[current] = 11;
                 } else {
                     commands[current] = 12;
                 }
+                current++;
             }
-            current += 1;
+            if (containers.get(0).getPackages().contains(p)) {
+                commands[current] = 97;
+            } else {
+                commands[current] = 98;
+            }
+            current++;
         }
 
         try {
